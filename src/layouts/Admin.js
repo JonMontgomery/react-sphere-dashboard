@@ -119,14 +119,14 @@ export default function Admin({ ...rest }) {
           <div className={classes.map}>{switchRoutes}</div>
         )}
         {getRoute() ? <Footer /> : null}
-        <FixedPlugin
+        {/* <FixedPlugin
           handleImageClick={handleImageClick}
           handleColorClick={handleColorClick}
           bgColor={color}
           bgImage={image}
           handleFixedClick={handleFixedClick}
           fixedClasses={fixedClasses}
-        />
+        /> */}
       </div>
     </div>
   );
