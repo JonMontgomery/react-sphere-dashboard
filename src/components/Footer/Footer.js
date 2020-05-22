@@ -23,17 +23,17 @@ export default function Footer(props) {
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
-              <a href="#company" className={classes.block}>
+              <a href="https://sphereinfluencer.com" className={classes.block}>
                 Company
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
-              <a href="#portfolio" className={classes.block}>
+              <a href="https://sphereinfluencer.com/case-studies.html" className={classes.block}>
                 Portfolio
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
-              <a href="#blog" className={classes.block}>
+              <a href="https://sphereinfluencer.com/blog.html" className={classes.block}>
                 Blog
               </a>
             </ListItem>
@@ -47,9 +47,9 @@ export default function Footer(props) {
               target="_blank"
               className={classes.a}
             >
-              Creative Tim
+              Sphere Influencer
             </a>
-            , made with love for a better web
+            , made with love for a better influencer experience
           </span>
         </p>
       </div>
