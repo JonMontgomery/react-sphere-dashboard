@@ -7,9 +7,16 @@ Bootstrapped with CreativeTIM template and Material UI, I am reinventing this da
 * Intuitive
 * Maintainable
 * Immutable
+* Efficient
 
 ## Tech Stack
-
+* React
+* Materials-UI
+* Node
+* Express
+* GraphQL
+* Prisma
+* MySQL
 
 ## Functionality 
 

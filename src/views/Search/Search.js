@@ -19,22 +19,24 @@ import styles from "assets/jss/material-dashboard-react/views/searchStyle.js";
 const useStyles = makeStyles(styles);
 
 export default function(){
-  const [emailBool, setEmailBool] = React.useState(false);
+  const [tags, setTags] = React.useState([]);
+  const [location, setLocation] = React.useState(0);
   const [engagement, setEngagement] = React.useState(0.0);
+  const [followerRange, setFollowerRange] = React.useState([10000,50000]);
+  const [emailBool, setEmailBool] = React.useState(false);
+  const [language, setLanguage] = React.useState();
     React.useEffect(() => {
-      // Update the document title using the browser API
+      console.log({tags});
+      console.log({location});
       console.log({emailBool});
       console.log({engagement});
+      console.log({language});
+      console.log({followerRange});
     });
   function HandleEmailClick(){
     setEmailBool(!emailBool);
   }
-  function HandleEngagementChange(val){
-    setEngagement(val);
-  }
   const classes = useStyles();
-
-
 
   return(
     <GridContainer>
@@ -64,9 +66,15 @@ export default function(){
       </GridItem>
       <GridItem xs={3} sm={4} md={4}>
         <FilterColumn 
-          engagementHandler={HandleEngagementChange}
+          tags={tags}
+          tagHandler={setTags}
+          location={location}
+          locationHandler={setLocation}
+          engagementHandler={setEngagement}
+          followerRangeHandler={setFollowerRange}
           emailHandler={HandleEmailClick} 
-
+          language={language}
+          languageHandler={setLanguage}
         />
       </GridItem>
     </GridContainer>

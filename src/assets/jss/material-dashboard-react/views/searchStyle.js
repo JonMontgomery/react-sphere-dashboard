@@ -11,24 +11,24 @@ const searchStyle = {
   },
   upArrowCardCategory: {
     width: "16px",
-    height: "16px"
+    height: "16px",
   },
   filterCol: {
     height: "auto",
   },
   influencerRow:{
-    height: "auto"
+    height: "auto",
   },
   individualFilter: {
     margin: "10px 0px",
-    padding: "10px 0px 0px 0px"
+    padding: "10px 0px 0px 0px",
   },
   header: {
   },
   influencerCard: {
     margin: "20px 10px",
     height: "auto",
-    minWidth: "260px"
+    minWidth: "260px",
   },
   stats: {
     color: grayColor[0],

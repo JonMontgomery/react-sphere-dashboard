@@ -39,45 +39,41 @@ export default function FilterColumn(props){
         </h3>
       </CardHeader>
       <div style={{margin:"0px 10px"}}>
-        <TagFilter />
-        <LocationFilter />
+        <TagFilter 
+          tags={props.tags}
+          tagHandler={props.tagHandler}
+        />
+        <LocationFilter 
+          location={props.location}
+          locationHandler={props.locationHandler} 
+        />
         <EngagementFilter engagementHandler={props.engagementHandler} />
-        <FollowerFilter />
+        <FollowerFilter
+          followerRangeHandler={props.followerRangeHandler}
+         />
         {/* <EthnicityFilter /> */}
         {/* <HashtagFilter /> */}
         <EmailFilter emailHandler={props.emailHandler} />
-        <LanguageFilter />
+        <LanguageFilter 
+          language={props.language}
+          languageHandler={props.languageHandler}
+        />
       </div>
     </Card>
   );
 }
 
-function TagFilter(){
+function TagFilter(props){
   const classes = useStyles();
-
-  const handleChangeMultiple = (event) => {
-    console.log(event.target);
-    const { options } = event.target;
-    const value = [];
-    for (let i = 0, l = options.length; i < l; i += 1) {
-      if (options[i].selected) {
-        value.push(options[i].value);
-      }
-    }
-    TagChips(value);
-  };
 
   return(
     <Card className={classes.individualFilter}>
-      {/* <CardHeader>
-        <h6 className={classes.cardTitleBlack}>Tags</h6>
-      </CardHeader> */}
       <FormControl className={classes.formControl}>
         <InputLabel id="tags">Tags</InputLabel>
         <Select
           labelId="tags" 
           id="tags-select"
-          onChange={handleChangeMultiple}
+          onChange={(e) => {props.tagHandler([...props.tags, e.target.value])}}
         >
           <MenuItem value={"Fashion"}>Fashion</MenuItem>
           <MenuItem value={"Fitness"}>Fitness</MenuItem>
@@ -88,28 +84,28 @@ function TagFilter(){
         justify="center" 
         alignItems="center"
       >
-        <TagChips />
-        <TagChips />
-        <TagChips />
+        {props.tags.map((tag) => (
+          <TagChip key={tag} tag={tag} />
+        ))}
       </GridContainer>
     </Card>
   );
 }
 
-function TagChips(props){
-  //iterate through each chip and place it
+//reduce gutter
+function TagChip(props){
   return(
     <GridItem>
       <Chip
-        icon={<LocalMallIcon />}
-        label="Fashion"
+        // icon={<LocalMallIcon />}
+        label={props.tag}
         style={{margin:"2px"}}
       />
     </GridItem>
   );
 }
 
-function LocationFilter(){
+function LocationFilter(props){
   const classes = useStyles();
   return(
     <Card className={classes.individualFilter}>
@@ -118,11 +114,42 @@ function LocationFilter(){
         <Select
           labelId="location" 
           id="location-select"
-          value={"United States"}
+          value={props.location}
+          onChange={(e) => props.locationHandler(e.target.value)}
         >
-          <MenuItem value={"United States"}>United States</MenuItem>
-          <MenuItem value={"California"}>California</MenuItem>
-          <MenuItem value={"Nevada"}>Nevada</MenuItem>
+          <MenuItem value={212999109}>Los Angeles, California</MenuItem>
+          <MenuItem value={212988663}>New York, New York</MenuItem>
+          <MenuItem value={212970049}>Beverly Hills, California</MenuItem>
+          <MenuItem value={212901056}>Las Vegas, Nevada</MenuItem>
+          <MenuItem value={213873866}>Malibu, California</MenuItem>
+          <MenuItem value={44961364}>San Francisco, California</MenuItem>
+          <MenuItem value={212950988}>Brooklyn, New York</MenuItem>
+          <MenuItem value={204517928}>Chicago, Illinois</MenuItem>
+          <MenuItem value={20188833}>Manhattan, New York</MenuItem>
+          <MenuItem value={137242643}>Santa Monica, California</MenuItem>
+          <MenuItem value={212947533}>Atlanta, Georgia</MenuItem>
+          <MenuItem value={213764719}>West Hollywood, California</MenuItem>
+          <MenuItem value={212983635}>San Diego, California</MenuItem>
+          <MenuItem value={212964995}>Austin, Texas</MenuItem>
+          <MenuItem value={212900916}>Dallas, Texas</MenuItem>
+          <MenuItem value={212962809}>Houston, Texas</MenuItem>
+          <MenuItem value={212971112}>Orlando, Florida</MenuItem>
+          <MenuItem value={212991559}>Toronto, Ontario</MenuItem>
+          <MenuItem value={213387672}>Venice, California</MenuItem>
+          <MenuItem value={213213692}>Nashville, Tennessee</MenuItem>
+          <MenuItem value={213413990}>Newport Beach, California</MenuItem>
+          <MenuItem value={213221157}>Calabasas, California</MenuItem>
+          <MenuItem value={213445472}>Laguna Beach, California</MenuItem>
+          <MenuItem value={211529586}>Phoenix, Arizona</MenuItem>
+          <MenuItem value={206698624}>Boston, Massachusetts</MenuItem>
+          <MenuItem value={213941548}>Seattle, Washington</MenuItem>
+          <MenuItem value={214228753}>Philadelphia, Pennsylvania</MenuItem>
+          <MenuItem value={213070948}>San Jose, California</MenuItem>
+          <MenuItem value={4599325}>Denver, Colorado</MenuItem>
+          <MenuItem value={208690144}>Scottsdale, Arizona</MenuItem>
+          <MenuItem value={213424196}>New Orleans, Louisiana</MenuItem>
+          <MenuItem value={213819997}>Vancouver, British Columbia</MenuItem>
+          <MenuItem value={107711604}>Portland, Oregon</MenuItem>
         </Select>
       </FormControl>
     </Card>
@@ -176,7 +203,7 @@ function EngagementFilter(props){
 }
 
 // slider
-function FollowerFilter(){
+function FollowerFilter(props){
   const classes = useStyles();
   const marks = [
     // {
@@ -203,11 +230,12 @@ function FollowerFilter(){
       </Typography>
       <div style={{margin:"0px 20px"}}>
         <Slider
-          defaultValue={10000}
+          defaultValue={[10000, 50000]}
           min={3000}
           max={100000}
+          onChangeCommitted={(e, v) => props.followerRangeHandler(v)}
           valueLabelDisplay="auto"
-          aria-labelledby="discrete-slider-always"
+          aria-labelledby="range-slider"
           marks={marks}
         />
       </div>
@@ -272,7 +300,7 @@ function EmailFilter(props){
   );
 }
 
-function LanguageFilter(){
+function LanguageFilter(props){
   const classes = useStyles();
   return(
     <Card className={classes.individualFilter}>
@@ -281,6 +309,8 @@ function LanguageFilter(){
         <Select
           labelId="language" 
           id="language-select"
+          value={props.language}
+          onChange={(e) => props.languageHandler(e.target.value)}
         >
           <MenuItem value={'en'}>English</MenuItem>
           <MenuItem value={'es'}>Spanish</MenuItem>
