@@ -47,13 +47,17 @@ export default function FilterColumn(props){
           location={props.location}
           locationHandler={props.locationHandler} 
         />
-        <EngagementFilter engagementHandler={props.engagementHandler} />
+        <EngagementFilter 
+          engagement={props.engagement}
+          engagementHandler={props.engagementHandler} />
         <FollowerFilter
+          followerRange={props.followerRange}
           followerRangeHandler={props.followerRangeHandler}
          />
-        {/* <EthnicityFilter /> */}
-        {/* <HashtagFilter /> */}
-        <EmailFilter emailHandler={props.emailHandler} />
+        <EmailFilter 
+          emailBool={props.emailBool}
+          emailBoolHandler={props.emailBoolHandler} 
+        />
         <LanguageFilter 
           language={props.language}
           languageHandler={props.languageHandler}
@@ -188,7 +192,7 @@ function EngagementFilter(props){
       </Typography>
       <div style={{margin:"0px 20px"}}>
         <Slider
-          defaultValue={1.0}
+          defaultValue={props.engagement}
           min={0.0}
           max={10.0}
           step={0.5}
@@ -230,7 +234,7 @@ function FollowerFilter(props){
       </Typography>
       <div style={{margin:"0px 20px"}}>
         <Slider
-          defaultValue={[10000, 50000]}
+          defaultValue={props.followerRange}
           min={3000}
           max={100000}
           onChangeCommitted={(e, v) => props.followerRangeHandler(v)}
@@ -264,17 +268,6 @@ function EthnicityFilter(){
   );
 }
 
-function HashtagFilter(){
-  const classes = useStyles();
-  return(
-    <Card className={classes.individualFilter}>
-      <CardHeader>
-        <h6 className={classes.cardTitleBlack}>Hashtag</h6>
-      </CardHeader>
-    </Card>
-  );
-}
-
 // checkbox
 function EmailFilter(props){
   const classes = useStyles();
@@ -290,7 +283,7 @@ function EmailFilter(props){
           </Typography>
           <IconButton 
             aria-label="set email search bool" 
-            onClick={props.emailHandler}
+            onClick={props.emailBoolHandler}
           >
             <Checkbox color="primary" />
           </IconButton>

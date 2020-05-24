@@ -20,12 +20,14 @@ const useStyles = makeStyles(styles);
 
 export default function(){
   const [tags, setTags] = React.useState([]);
-  const [location, setLocation] = React.useState(0);
-  const [engagement, setEngagement] = React.useState(0.0);
+  const [location, setLocation] = React.useState();
+  const [engagement, setEngagement] = React.useState(1.0);
   const [followerRange, setFollowerRange] = React.useState([10000,50000]);
   const [emailBool, setEmailBool] = React.useState(false);
   const [language, setLanguage] = React.useState();
     React.useEffect(() => {
+      //check if local saved state
+      //fetch data
       console.log({tags});
       console.log({location});
       console.log({emailBool});
@@ -70,9 +72,12 @@ export default function(){
           tagHandler={setTags}
           location={location}
           locationHandler={setLocation}
+          engagement={engagement}
           engagementHandler={setEngagement}
+          followerRange={followerRange}
           followerRangeHandler={setFollowerRange}
-          emailHandler={HandleEmailClick} 
+          emailBool={emailBool}
+          emailBoolHandler={HandleEmailClick} 
           language={language}
           languageHandler={setLanguage}
         />
