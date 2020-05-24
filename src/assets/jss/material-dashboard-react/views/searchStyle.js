@@ -16,14 +16,19 @@ const searchStyle = {
   filterCol: {
     height: "auto",
   },
+  influencerRow:{
+    height: "auto"
+  },
   individualFilter: {
-    margin: "0px"
+    margin: "10px 0px",
+    padding: "10px 0px 0px 0px"
   },
   header: {
   },
   influencerCard: {
     margin: "20px 10px",
-    height: "300px",
+    height: "auto",
+    minWidth: "260px"
   },
   stats: {
     color: grayColor[0],

@@ -5,5 +5,13 @@ Bootstrapped with CreativeTIM template and Material UI, I am reinventing this da
 ## Mantra
 
 * Intuitive
-* Scales well
-* immutable
+* Maintainable
+* Immutable
+
+## Tech Stack
+
+
+## Functionality 
+
+* influencer search
+  
