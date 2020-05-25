@@ -9,6 +9,7 @@
     "@material-ui/icons": "4.2.1",
     "chartist": "0.10.1",
     "classnames": "2.2.6",
+    "express-session": "^1.17.1",
     "history": "4.9.0",
     "perfect-scrollbar": "1.4.0",
     "prop-types": "15.7.2",
@@ -25,6 +26,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
+    "dev": "concurrently \"react-scripts start\" \"nodemon ./server/server.js\"",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",
     "lint:check": "eslint . --ext=js,jsx;  exit 0",
     "lint:fix": "eslint . --ext=js,jsx --fix;  exit 0",
@@ -49,10 +51,12 @@
     "typescript": "3.5.3"
   },
   "devDependencies": {
+    "concurrently": "^5.2.0",
     "eslint-config-prettier": "6.0.0",
     "eslint-plugin-prettier": "3.1.0",
     "gulp": "4.0.2",
     "gulp-append-prepend": "1.0.8",
+    "nodemon": "^2.0.4",
     "prettier": "1.18.2"
   },
   "browserslist": {

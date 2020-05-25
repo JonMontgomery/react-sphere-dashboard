@@ -18,7 +18,15 @@ Bootstrapped with CreativeTIM template and Material UI, I am reinventing this da
 * Prisma
 * MySQL
 
+## Node Modules
+* material-ui
+* chartist
+
 ## Functionality 
 
 * influencer search
+* profile view
+* campaign management/organization
+
+
   

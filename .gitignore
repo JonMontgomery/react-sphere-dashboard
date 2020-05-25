@@ -11,6 +11,9 @@ logs
 node_modules
 bower_components
 
+server/node_modules
+server/config/*
+
 *.sublime*
 
 psd

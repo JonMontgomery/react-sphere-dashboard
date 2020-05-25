@@ -1,0 +1,26 @@
+{
+  "name": "mona-dashboard-server",
+  "version": "1.0.0",
+  "description": "backend for Mona dashboard",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "graphql",
+    "node",
+    "express",
+    "mysql"
+  ],
+  "author": "Eric Ventor",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "moment": "^2.26.0",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
