@@ -2,12 +2,15 @@
 
 Bootstrapped with CreativeTIM template and Material UI, I am reinventing this dashboard to be an all in one influencer campaign management and search tool.
 
-## Mantra
+Node backend folder architecture based on [Bulletproof node.js project architecture 🛡️](https://softwareontheroad.com/ideal-nodejs-project-structure/?utm_source=reddit&utm_medium=subreddit)
+
+## Mantra/Goal
 
 * Intuitive
 * Maintainable
 * Immutable
 * Efficient
+* AND TO LEARN
 
 ## Tech Stack
 * React
@@ -15,12 +18,25 @@ Bootstrapped with CreativeTIM template and Material UI, I am reinventing this da
 * Node
 * Express
 * GraphQL
-* Prisma
 * MySQL
 
-## Node Modules
+## Unit Testing
+Done with Mocha + Chai.
+
+
+## React Node Modules
 * material-ui
 * chartist
+
+## Node Server Modules
+
+* Express - workflow handling
+* Passport - user authentication
+* GraphQL - advanced querying/mutating
+* Dotenv - storing sensitive environment variables
+* mySQL - database querying
+* util - promisifying connection pool
+* mocha/chai for unit testing
 
 ## Functionality 
 
@@ -28,5 +44,3 @@ Bootstrapped with CreativeTIM template and Material UI, I am reinventing this da
 * profile view
 * campaign management/organization
 
-
-  
