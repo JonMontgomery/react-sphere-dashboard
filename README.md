@@ -10,19 +10,18 @@ Node backend folder architecture based on [Bulletproof node.js project architect
 * Maintainable
 * Immutable
 * Efficient
-* AND TO LEARN
+* TO LEARN
 
 ## Tech Stack
 * React
 * Materials-UI
 * Node
 * Express
-* GraphQL
+* Sequelizer
 * MySQL
 
 ## Unit Testing
 Done with Mocha + Chai.
-
 
 ## React Node Modules
 * material-ui
@@ -31,9 +30,9 @@ Done with Mocha + Chai.
 ## Node Server Modules
 
 * Express - workflow handling
-* Passport - user authentication
-* GraphQL - advanced querying/mutating
 * Dotenv - storing sensitive environment variables
+* Passport - user authentication
+* Sequelizer - ORM
 * mySQL - database querying
 * util - promisifying connection pool
 * mocha/chai for unit testing
@@ -43,4 +42,3 @@ Done with Mocha + Chai.
 * influencer search
 * profile view
 * campaign management/organization
-
