@@ -5,7 +5,7 @@ chai.use(chaiAsPromised).should();
 const assert = chai.assert;
 const expect = chai.expect;
 const to = chai.to;
-const influencer_search = require('../../../api/fetch/influencer_search.js');
+const influencer_search = require('../../../api/fetch/influencer-search.js');
 const server = require('../../../server');
 
 describe('influencer_search', () => {
