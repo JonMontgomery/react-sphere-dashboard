@@ -1,16 +1,10 @@
 import React, { Component } from "react";
 
 import GridItem from "components/Grid/GridItem.js";
-import { flexbox } from '@material-ui/system';
 import GridContainer from "components/Grid/GridContainer.js";
-import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
 import Box from '@material-ui/core/Box';
 import CardHeader from "components/Card/CardHeader.js";
-import CardBody from "components/Card/CardBody.js";
-import CardIcon from "components/Card/CardIcon.js";
-import Icon from "@material-ui/core/Icon";
-import { Grid } from "@material-ui/core";
 import InfluencerCard from "./InfluencerCard";
 import FilterColumn from "./FilterColumn";
 
@@ -19,27 +13,40 @@ import styles from "assets/jss/material-dashboard-react/views/searchStyle.js";
 const useStyles = makeStyles(styles);
 
 export default function(){
+//   const [filters, setFilters] = React.useState({
+//     filters: 
+//       [{
+//         tags: [],
+//         location: null,
+//         minEngagement: 1.0,
+//         followerRange: [10000, 50000],
+//         emailBool: false,
+//         language: null,
+//       }],
+//     stepNumber: 0,  
+// })
   const [tags, setTags] = React.useState([]);
   const [location, setLocation] = React.useState();
   const [engagement, setEngagement] = React.useState(1.0);
   const [followerRange, setFollowerRange] = React.useState([10000,50000]);
   const [emailBool, setEmailBool] = React.useState(false);
   const [language, setLanguage] = React.useState();
-    React.useEffect(() => {
+  const [loading, setLoading] = React.useState(true);
+  const [users, setUsers] = React.useState([]);
+    React.useEffect(async () => {
       //check if local saved state
-      //fetch data
-      console.log({tags});
-      console.log({location});
-      console.log({emailBool});
-      console.log({engagement});
-      console.log({language});
-      console.log({followerRange});
+      const receivedUsers = await fetchUsers(setLoading);
+      console.log({...receivedUsers});
+      setUsers([...users, ...arrangeInfluencers(receivedUsers)]);
+
+      console.log({tags, location, emailBool, engagement, language, followerRange});
     });
   function HandleEmailClick(){
     setEmailBool(!emailBool);
   }
   const classes = useStyles();
 
+  console.log({users});
   return(
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
@@ -52,18 +59,7 @@ export default function(){
       </GridItem>
       <GridItem xs={11} sm={8} md={8}>
         <Card plain>
-          <Box display="flex" className={classes.influencerRow}>
-            <InfluencerCard />
-            <InfluencerCard />
-          </Box>
-          <Box display="flex" className={classes.influencerRow}>
-            <InfluencerCard />
-            <InfluencerCard />
-          </Box>
-          <Box display="flex" className={classes.influencerRow}>
-            <InfluencerCard />
-            <InfluencerCard />
-          </Box>
+          {users}
         </Card>
       </GridItem>
       <GridItem xs={3} sm={4} md={4}>
@@ -84,4 +80,32 @@ export default function(){
       </GridItem>
     </GridContainer>
   );
+}
+
+function arrangeInfluencers(users){
+  const formattedUsers = [];
+  for(let i = 0; i < users.length; i++){
+    formattedUsers.push(
+      <Box>
+        {arrangeInfluencer(users[i])}
+        {arrangeInfluencer(users[++i])}
+      </Box>
+    );
+  }
+  return formattedUsers;
+}
+
+function arrangeInfluencer(user){
+  return <InfluencerCard key={user.userID} user={user} />;
+}
+
+function fetchUsers(setLoading){
+  return fetch('http://localhost:3001/influencersearch/')
+    .then(response => {
+      setLoading(false);
+      return response.json();
+    })
+    .catch(e => {
+      console.log(e);
+    });
 }

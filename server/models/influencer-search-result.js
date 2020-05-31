@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true,
     updatedAt: 'lastUpdated',
     createdAt: 'dateFound',
-    modelName: 'ProfileSearchResult',
+    modelName: 'profile',
   });
 
   const AboutSearchResult = sequelize.define('about', {
@@ -23,7 +23,6 @@ module.exports = (sequelize, DataTypes) => {
   },{
     timestamps: false,
     about: 'about',
-    modelName: 'AboutSearchResult',
   });
 
   const EngagementSearchResult = sequelize.define('engagementMetrics', {
@@ -37,13 +36,12 @@ module.exports = (sequelize, DataTypes) => {
   },{
     timestamps: false,
     tableName: 'engagementMetrics',
-    modelName: 'EngagementSearchResult',
   });
 
   ProfileSearchResult.hasOne(AboutSearchResult, {foreignKey: 'about_FK'});
-  // AboutSearchResult.belongsTo(ProfileSearchResult, {foreignKey: 'about_FK', targetKey: 'name'});
-  ProfileSearchResult.hasOne(EngagementSearchResult, {foreignKey: 'engagementMetrics_FK'});
-  // EngagementSearchResult.belongsTo(ProfileSearchResult, {foreignKey: 'engagementMetrics_FK', targetKey: 'name'});
+  AboutSearchResult.belongsTo(ProfileSearchResult, {foreignKey: 'about_FK', targetKey: 'name'});
+  // ProfileSearchResult.hasOne(EngagementSearchResult, {foreignKey: 'engagementMetrics_FK'});
+  EngagementSearchResult.belongsTo(ProfileSearchResult, {foreignKey: 'engagementMetrics_FK', targetKey: 'name'});
   return ProfileSearchResult;
 };
 

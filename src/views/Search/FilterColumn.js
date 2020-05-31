@@ -257,11 +257,11 @@ function EthnicityFilter(){
           labelId="ethnicity" 
           id="ethnicity-select"
         >
-          <MenuItem value={0}>🏻</MenuItem>
-          <MenuItem value={1}>🏼</MenuItem>
-          <MenuItem value={2}>🏽</MenuItem>
-          <MenuItem value={3}>🏾</MenuItem>
-          <MenuItem value={4}>🏿</MenuItem>
+          <MenuItem value={0}><span>🏻</span></MenuItem>
+          <MenuItem value={1}><span>🏼</span></MenuItem>
+          <MenuItem value={2}><span>🏽</span></MenuItem>
+          <MenuItem value={3}><span>🏾</span></MenuItem>
+          <MenuItem value={4}><span>🏿</span></MenuItem>
         </Select>
       </FormControl>
     </Card>

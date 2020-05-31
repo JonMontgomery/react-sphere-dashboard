@@ -42,3 +42,7 @@ Done with Mocha + Chai.
 * influencer search
 * profile view
 * campaign management/organization
+
+## Concerns
+* extremely long get request URIs
+  * according to [this](https://stackoverflow.com/questions/49893776/how-to-send-a-huge-parameter-list-to-a-get-request), it's standard and ok. Also modern browsers support an insane amount of characters in the URL
