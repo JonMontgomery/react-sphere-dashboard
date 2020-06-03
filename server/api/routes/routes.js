@@ -4,7 +4,7 @@ const router = express.Router();
 const db = require('../middleware/database.js')
  
 router.get('/influencersearch', async (req, res) => {
-  const influencers = await require('../fetch/influencer-search.js')(db, {});
+  const influencers = await require('../fetch/influencer-search.js')(db, req.query);
   res.status(200).json(influencers);
 })
 

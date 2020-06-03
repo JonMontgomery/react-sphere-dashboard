@@ -12,6 +12,9 @@ import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import IconButton from '@material-ui/core/IconButton';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 
+import numberFormatter from "../../helpers/numberFormatter.js";
+import numberWithCommas from "../../helpers/numberWithCommas.js";
+
 import { makeStyles } from "@material-ui/core/styles";
 import styles from "assets/jss/material-dashboard-react/views/searchStyle.js";
 const useStyles = makeStyles(styles);
@@ -20,40 +23,46 @@ export default function InfluencerCard(props){
   const classes = useStyles();
   return(
     <Card className={classes.influencerCard}>
-      <div style={{padding:"25px"}}>
-        <GridContainer>
-          <PeopleIcon/><span>&nbsp; props.user.followers</span>
+      <div className={classes.metaDisplay}>
+        <GridContainer
+          className={classes.metaDisplay}
+        >
+          <PeopleIcon/><span Title={numberWithCommas(props.user.followers)}>&nbsp; {numberFormatter(props.user.followers)}</span>
           <CardAvatar profile>
-            <a href="#pablo" onClick={e => e.preventDefault()}>
+            <a href="" onClick={e => e.preventDefault()}>
               <img src={avatar} alt="..." />
             </a>
           </CardAvatar>
-  <span style={{marginRight:"-10px"}}>{props.user.engagementMetrics.averageEngagementLikesComments}%&nbsp;</span><HeartButton />
+          <span Title={numberFormatter(props.user.engagementMetric.engagement) + " likes/comments avg"} style={{marginRight:"-10px"}}>{props.user.engagementMetric.averageEngagementLikesComments}%&nbsp;</span><HeartButton />
         </GridContainer>
         <GridContainer 
-          justify="center" 
+          justify="flex-end" 
           direction="column" 
           alignItems="center"
         >
-          <GridItem style={{marginTop:"10px"}}>
+          <GridItem style={{marginTop:"10px", height:"24px", fontWeight: "bold"}}>
           {props.user.fullName}
           </GridItem>
-          <GridItem>
+          <GridItem style={{width:"auto", height:"24px"}}>
             &nbsp;&nbsp;&nbsp;@{props.user.username} &nbsp;
-            <span title="Instagram verified"><CheckIcon  style={{fontSize:"small", color:"#1da1f3"}}/></span> 
-            <span title="Sphere partner"><CheckIcon style={{fontSize:"small", color:"#ff9999"}}/></span> 
+            {props.user.about.verified ? <span title="Instagram verified"><CheckIcon  style={{fontSize:"small", color:"#1da1f3"}}/></span> : ''} 
+            {/* <span title="Sphere partner"><CheckIcon style={{fontSize:"small", color:"#ff9999"}}/></span>  */}
           </GridItem>
           <GridItem>
-            {props.user.state}
+          📍{props.user.state}
           </GridItem>
-          <GridItem style={{width:"auto"}}>
+          <GridItem style={{width:"auto", height:"72px"}}>
             {props.user.about.bio}
           </GridItem>
           <GridItem style={{width:"auto"}}>
-            <div style={{overflow:"scroll"}}>
+            <div className={classes.tagsDisplay}>
               <Chip
                 icon={<LocalMallIcon />}
                 label="Fashion"
+              />
+              <Chip
+                icon={<FitnessCenterIcon />}
+                label="Fitness"
               />
               <Chip
                 icon={<FitnessCenterIcon />}

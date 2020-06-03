@@ -28,14 +28,26 @@ sequelize
 const db = {};
 
 db.Sequelize = Sequelize;
+db.op = Sequelize.Op;
 db.sequelize = sequelize;
 
 db.profile = require('../../models/profile')(sequelize, Sequelize);
 db.engagementMetrics = require('../../models/engagement-metrics')(sequelize, Sequelize);
 db.about = require('../../models/about')(sequelize, Sequelize);
+db.minPro = require('../../models/min-pro')(sequelize, Sequelize);
+db.minEng = require('../../models/min-eng')(sequelize, Sequelize);
+db.minAbout = require('../../models/min-about')(sequelize, Sequelize);
 
 
 //relations
+
+//influencer search cards
+db.minPro.hasOne(db.minEng, { foreignKey: 'userID' });
+db.minEng.belongsTo(db.minPro, { foreignKey: 'userID' });
+db.minPro.hasOne(db.minAbout, { foreignKey: 'userID' });
+db.minAbout.belongsTo(db.minPro, { foreignKey: 'userID' });
+
+//general profile
 db.profile.hasOne(db.engagementMetrics, { foreignKey: 'userID' });
 db.engagementMetrics.belongsTo(db.profile, { foreignKey: 'userID' });
 db.profile.hasOne(db.about, { foreignKey: 'userID' });

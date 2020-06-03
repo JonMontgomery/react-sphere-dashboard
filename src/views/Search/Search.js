@@ -8,6 +8,8 @@ import CardHeader from "components/Card/CardHeader.js";
 import InfluencerCard from "./InfluencerCard";
 import FilterColumn from "./FilterColumn";
 
+import searchURLBuilder from "../../helpers/searchURLBuilder.js";
+
 import { makeStyles } from "@material-ui/core/styles";
 import styles from "assets/jss/material-dashboard-react/views/searchStyle.js";
 const useStyles = makeStyles(styles);
@@ -15,15 +17,14 @@ const useStyles = makeStyles(styles);
 export default function(){
 //   const [filters, setFilters] = React.useState({
 //     filters: 
-//       [{
+//       {
 //         tags: [],
 //         location: null,
 //         minEngagement: 1.0,
 //         followerRange: [10000, 50000],
 //         emailBool: false,
 //         language: null,
-//       }],
-//     stepNumber: 0,  
+//       }
 // })
   const [tags, setTags] = React.useState([]);
   const [location, setLocation] = React.useState();
@@ -33,20 +34,25 @@ export default function(){
   const [language, setLanguage] = React.useState();
   const [loading, setLoading] = React.useState(true);
   const [users, setUsers] = React.useState([]);
-    React.useEffect(async () => {
-      //check if local saved state
-      const receivedUsers = await fetchUsers(setLoading);
-      console.log({...receivedUsers});
-      setUsers([...users, ...arrangeInfluencers(receivedUsers)]);
-
-      console.log({tags, location, emailBool, engagement, language, followerRange});
-    });
-  function HandleEmailClick(){
-    setEmailBool(!emailBool);
-  }
   const classes = useStyles();
 
-  console.log({users});
+  React.useEffect(() => {
+    //check if local saved state
+    async function getUsers() {
+      const url = searchURLBuilder(tags, location, engagement, followerRange, emailBool, language);
+      console.log(url);
+      const receivedUsers = await fetchUsers(url, setLoading);
+      setUsers(oldUsers => [...arrangeInfluencers(receivedUsers, classes)]);
+    }
+    getUsers();
+  }, [tags, location, engagement, followerRange, emailBool, language]);
+
+  
+
+  function HandleEmailClick(){
+    // setFilters({...filters, location: "12323234"})
+    setEmailBool(!emailBool);
+  }
   return(
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
@@ -82,11 +88,12 @@ export default function(){
   );
 }
 
-function arrangeInfluencers(users){
+function arrangeInfluencers(users, classes){
   const formattedUsers = [];
-  for(let i = 0; i < users.length; i++){
+  // watch for this - 1
+  for(let i = 0; i < users.length - 1; i++){
     formattedUsers.push(
-      <Box>
+      <Box display="flex" className={classes.influencerRow}>
         {arrangeInfluencer(users[i])}
         {arrangeInfluencer(users[++i])}
       </Box>
@@ -99,8 +106,8 @@ function arrangeInfluencer(user){
   return <InfluencerCard key={user.userID} user={user} />;
 }
 
-function fetchUsers(setLoading){
-  return fetch('http://localhost:3001/influencersearch/')
+function fetchUsers(url, setLoading){
+  return fetch(url)
     .then(response => {
       setLoading(false);
       return response.json();

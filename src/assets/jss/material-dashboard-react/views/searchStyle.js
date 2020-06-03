@@ -15,9 +15,8 @@ const searchStyle = {
   },
   filterCol: {
     height: "auto",
-  },
-  influencerRow:{
-    height: "auto",
+    width: "auto",
+    position: "relative",
   },
   individualFilter: {
     margin: "10px 0px",
@@ -25,10 +24,26 @@ const searchStyle = {
   },
   header: {
   },
+  influencerRow:{
+    height: "auto",
+  },
   influencerCard: {
     margin: "20px 10px",
     height: "auto",
     minWidth: "260px",
+  },
+  metaDisplay: {
+    height: "30%",
+    padding:"25px",
+  },
+  bioDisplay: {
+    width:"auto", 
+    height:"72px",
+  },
+  tagsDisplay: {
+    height: "20%",
+    overflow:"scroll",
+    bottom: "0",
   },
   stats: {
     color: grayColor[0],
