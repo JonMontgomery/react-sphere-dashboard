@@ -34,7 +34,6 @@ Done with Mocha + Chai.
 * Passport - user authentication
 * Sequelizer - ORM
 * mySQL - database querying
-* util - promisifying connection pool
 * mocha/chai for unit testing
 
 ## Functionality 

@@ -13,6 +13,9 @@ const searchStyle = {
     width: "16px",
     height: "16px",
   },
+  loading: {
+    textAlign: "center",
+  },
   filterCol: {
     height: "auto",
     width: "auto",

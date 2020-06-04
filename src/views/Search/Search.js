@@ -5,10 +5,12 @@ import GridContainer from "components/Grid/GridContainer.js";
 import Card from "components/Card/Card.js";
 import Box from '@material-ui/core/Box';
 import CardHeader from "components/Card/CardHeader.js";
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import InfluencerCard from "./InfluencerCard";
 import FilterColumn from "./FilterColumn";
-
 import searchURLBuilder from "../../helpers/searchURLBuilder.js";
+import InfiniteScroll from 'react-infinite-scroller';
 
 import { makeStyles } from "@material-ui/core/styles";
 import styles from "assets/jss/material-dashboard-react/views/searchStyle.js";
@@ -31,26 +33,37 @@ export default function(){
   const [engagement, setEngagement] = React.useState(1.0);
   const [followerRange, setFollowerRange] = React.useState([10000,50000]);
   const [emailBool, setEmailBool] = React.useState(false);
-  const [language, setLanguage] = React.useState();
+  const [language, setLanguage] = React.useState("en");
   const [loading, setLoading] = React.useState(true);
   const [users, setUsers] = React.useState([]);
+  const [offset, setOffset] = React.useState(0);
+  let hasMore = true;
+  let prevOffset = 0;
   const classes = useStyles();
 
   React.useEffect(() => {
+    if(offset > 20){
+      hasMore = false;
+    }
+    console.log(hasMore);
     //check if local saved state
     async function getUsers() {
-      const url = searchURLBuilder(tags, location, engagement, followerRange, emailBool, language);
-      console.log(url);
+      if(prevOffset === offset) {
+        setOffset(0);
+        setUsers([]);
+      }
+      prevOffset = offset;
+      const url = searchURLBuilder(tags, location, engagement, followerRange, emailBool, language, offset);
       const receivedUsers = await fetchUsers(url, setLoading);
-      setUsers(oldUsers => [...arrangeInfluencers(receivedUsers, classes)]);
+      setUsers(oldUsers => [...oldUsers, ...arrangeInfluencers(receivedUsers, classes)]);
+      //save locally
     }
-    getUsers();
-  }, [tags, location, engagement, followerRange, emailBool, language]);
 
-  
+    // setLoading(true);
+    getUsers();
+  }, [tags, location, engagement, followerRange, emailBool, language, offset]);
 
   function HandleEmailClick(){
-    // setFilters({...filters, location: "12323234"})
     setEmailBool(!emailBool);
   }
   return(
@@ -64,9 +77,21 @@ export default function(){
         </CardHeader>
       </GridItem>
       <GridItem xs={11} sm={8} md={8}>
+      <InfiniteScroll
+        loadMore={() => loading ? setOffset(offset + 10) : ""}
+        // loader={<LoadingCircle classes={classes} />}
+        initialLoad={true}
+        hasMore={true}
+        useWindow={false}
+        threshold={250}
+      >
         <Card plain>
-          {users}
+            {users}
+          <GridItem>
+            {loading ? <LoadingCircle classes={classes}/> : ""}
+          </GridItem>
         </Card>
+      </InfiniteScroll>
       </GridItem>
       <GridItem xs={3} sm={4} md={4}>
         <FilterColumn 
@@ -88,12 +113,21 @@ export default function(){
   );
 }
 
+function LoadingCircle(props){
+  return (
+    <div className={props.classes.loading}>
+      <CircularProgress color="secondary" />
+    </div>
+  );
+}
+
 function arrangeInfluencers(users, classes){
   const formattedUsers = [];
   // watch for this - 1
   for(let i = 0; i < users.length - 1; i++){
+    let key = users[i].userID;
     formattedUsers.push(
-      <Box display="flex" className={classes.influencerRow}>
+      <Box display="flex" key={key} className={classes.influencerRow}>
         {arrangeInfluencer(users[i])}
         {arrangeInfluencer(users[++i])}
       </Box>
@@ -103,13 +137,13 @@ function arrangeInfluencers(users, classes){
 }
 
 function arrangeInfluencer(user){
-  return <InfluencerCard key={user.userID} user={user} />;
+  return <InfluencerCard key={user.userID} user={user} /*monaUserID=*//>;
 }
 
 function fetchUsers(url, setLoading){
   return fetch(url)
     .then(response => {
-      setLoading(false);
+      // setLoading(false);
       return response.json();
     })
     .catch(e => {

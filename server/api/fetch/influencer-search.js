@@ -13,17 +13,18 @@ module.exports = (db, params) => {
           averageEngagementLikesComments: {
             [op.gt]: params.minEngagement,
           }
-          
         }
-      }
+      },
+      { model: db.minMeta}
     ],
     where:{
       followers: {
         [op.between]: params.followers.split(",").map(x => parseInt(x))
-      }
-      // [Op.and]: [{db.language: params.language}],
+      },
     },
-    limit: 10,
+    offset: parseInt(params.offset),
+    limit: (10 + parseInt(params.offset)),
+    subQuery:false,
   })
   .then(influencers => {
     return influencers

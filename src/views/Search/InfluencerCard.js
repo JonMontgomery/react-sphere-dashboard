@@ -11,6 +11,7 @@ import LocalMallIcon from '@material-ui/icons/LocalMall';
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import IconButton from '@material-ui/core/IconButton';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
+import Favorite from '@material-ui/icons/Favorite';
 
 import numberFormatter from "../../helpers/numberFormatter.js";
 import numberWithCommas from "../../helpers/numberWithCommas.js";
@@ -27,13 +28,19 @@ export default function InfluencerCard(props){
         <GridContainer
           className={classes.metaDisplay}
         >
-          <PeopleIcon/><span Title={numberWithCommas(props.user.followers)}>&nbsp; {numberFormatter(props.user.followers)}</span>
+          <PeopleIcon/><span title={numberWithCommas(props.user.followers)}>&nbsp; {numberFormatter(props.user.followers)}</span>
           <CardAvatar profile>
             <a href="" onClick={e => e.preventDefault()}>
               <img src={avatar} alt="..." />
             </a>
           </CardAvatar>
-          <span Title={numberFormatter(props.user.engagementMetric.engagement) + " likes/comments avg"} style={{marginRight:"-10px"}}>{props.user.engagementMetric.averageEngagementLikesComments}%&nbsp;</span><HeartButton />
+          <span 
+            title={numberFormatter(props.user.engagementMetric.engagement) + " likes/comments avg"} 
+            style={{marginRight:"-10px"}}
+          >
+            {props.user.engagementMetric.averageEngagementLikesComments}%&nbsp;
+          </span>
+          <HeartButton userID={props.user.userID}/>
         </GridContainer>
         <GridContainer 
           justify="flex-end" 
@@ -51,7 +58,7 @@ export default function InfluencerCard(props){
           <GridItem>
           📍{props.user.state}
           </GridItem>
-          <GridItem style={{width:"auto", height:"72px"}}>
+          <GridItem style={{height:"auto", minHeight: "96px"}}>
             {props.user.about.bio}
           </GridItem>
           <GridItem style={{width:"auto"}}>
@@ -76,11 +83,21 @@ export default function InfluencerCard(props){
   );
 }
 
-function HeartButton(){
+function HeartButton(props){
+  const [like, setLike] = React.useState(false);
+    React.useEffect(() => {
+      if (like){
+        console.log(props.userID)
+      }
+    });
   return (
-    <IconButton style={{margin:"-25px -10px 0px 0px"}} aria-label="add to shopping cart">
-      <FavoriteBorder/>
+    <IconButton 
+      style={{margin:"-25px -10px 0px 0px"}} 
+      aria-label="favorite this influencer"
+      onClick={() => setLike(!like)}
+    >
+      {like ? <Favorite color="secondary"/> : <FavoriteBorder/>}
     </IconButton>
-    //on pressed show  <Favorite />
+    //on pressed show  
   );
 }
