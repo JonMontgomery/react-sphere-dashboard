@@ -37,8 +37,8 @@ export default function(){
   const [loading, setLoading] = React.useState(true);
   const [users, setUsers] = React.useState([]);
   const [offset, setOffset] = React.useState(0);
+  let prevOffset = offset;
   let hasMore = true;
-  let prevOffset = 0;
   const classes = useStyles();
 
   React.useEffect(() => {
@@ -47,21 +47,21 @@ export default function(){
     }
     console.log(hasMore);
     //check if local saved state
-    async function getUsers() {
+    function getUsers() {
       if(prevOffset === offset) {
         setOffset(0);
         setUsers([]);
       }
       prevOffset = offset;
       const url = searchURLBuilder(tags, location, engagement, followerRange, emailBool, language, offset);
-      const receivedUsers = await fetchUsers(url, setLoading);
-      setUsers(oldUsers => [...oldUsers, ...arrangeInfluencers(receivedUsers, classes)]);
+      fetchUsers(url, users, setUsers, setLoading, classes, []);
+      
       //save locally
     }
 
     // setLoading(true);
     getUsers();
-  }, [tags, location, engagement, followerRange, emailBool, language, offset]);
+  }, [tags, location, engagement, followerRange, emailBool, language]);
 
   function HandleEmailClick(){
     setEmailBool(!emailBool);
@@ -77,21 +77,31 @@ export default function(){
         </CardHeader>
       </GridItem>
       <GridItem xs={11} sm={8} md={8}>
-      <InfiniteScroll
-        loadMore={() => loading ? setOffset(offset + 10) : ""}
-        // loader={<LoadingCircle classes={classes} />}
-        initialLoad={true}
-        hasMore={true}
-        useWindow={false}
-        threshold={250}
-      >
         <Card plain>
-            {users}
+          <div style={{height: window.innerHeight, overflow:"auto"}}>
+            <InfiniteScroll
+              loadMore={() => {
+                setOffset(offset + 10);
+                console.log(offset);
+                const url = searchURLBuilder(tags, location, engagement, followerRange, emailBool, language, offset);
+                fetchUsers(url, users, setUsers, setLoading, classes);
+                setTimeout(10000);
+              }}
+              loader={<LoadingCircle classes={classes} />}
+              initialLoad={false}
+              hasMore={true}
+              useWindow={false}
+              threshold={10}
+            >
+              <div>
+                {users}
+              </div>
+            </InfiniteScroll>
+          </div>
           <GridItem>
             {loading ? <LoadingCircle classes={classes}/> : ""}
           </GridItem>
         </Card>
-      </InfiniteScroll>
       </GridItem>
       <GridItem xs={3} sm={4} md={4}>
         <FilterColumn 
@@ -140,11 +150,13 @@ function arrangeInfluencer(user){
   return <InfluencerCard key={user.userID} user={user} /*monaUserID=*//>;
 }
 
-function fetchUsers(url, setLoading){
-  return fetch(url)
-    .then(response => {
-      // setLoading(false);
-      return response.json();
+async function fetchUsers(url, users, setUsers, setLoading, classes){
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      setLoading(false);
+      const receivedUsers = data;
+      setUsers([...users, ...arrangeInfluencers(receivedUsers, classes)]);
     })
     .catch(e => {
       console.log(e);
