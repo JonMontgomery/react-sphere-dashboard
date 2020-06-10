@@ -11,7 +11,7 @@ module.exports = (db, params) => {
       { model: db.minEng, 
         where: {
           averageEngagementLikesComments: {
-            [op.gt]: params.minEngagement,
+            [op.gt]: parseFloat(params.minEngagement),
           }
         }
       },
@@ -23,7 +23,7 @@ module.exports = (db, params) => {
       },
     },
     offset: parseInt(params.offset),
-    limit: (10 + parseInt(params.offset)),
+    limit: 10,
     subQuery:false,
   })
   .then(influencers => {

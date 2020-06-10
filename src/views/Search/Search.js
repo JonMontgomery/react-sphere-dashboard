@@ -37,31 +37,25 @@ export default function(){
   const [loading, setLoading] = React.useState(true);
   const [users, setUsers] = React.useState([]);
   const [offset, setOffset] = React.useState(0);
-  let prevOffset = offset;
-  let hasMore = true;
   const classes = useStyles();
 
   React.useEffect(() => {
-    if(offset > 20){
-      hasMore = false;
-    }
-    console.log(hasMore);
     //check if local saved state
-    function getUsers() {
-      if(prevOffset === offset) {
-        setOffset(0);
-        setUsers([]);
-      }
-      prevOffset = offset;
-      const url = searchURLBuilder(tags, location, engagement, followerRange, emailBool, language, offset);
-      fetchUsers(url, users, setUsers, setLoading, classes, []);
-      
-      //save locally
-    }
-
     // setLoading(true);
     getUsers();
   }, [tags, location, engagement, followerRange, emailBool, language]);
+
+  function getUsers() {
+    setLoading(true);
+    setOffset(0);
+    let myDiv = document.getElementById('influencer-nav');
+    myDiv.scrollTop = 0;
+    console.log("hit");
+    const url = searchURLBuilder(tags, location, engagement, followerRange, emailBool, language, offset);
+    fetchUsers(url, [], setUsers, setLoading, classes, users);
+    
+    //save locally
+  }
 
   function HandleEmailClick(){
     setEmailBool(!emailBool);
@@ -78,16 +72,14 @@ export default function(){
       </GridItem>
       <GridItem xs={11} sm={8} md={8}>
         <Card plain>
-          <div style={{height: window.innerHeight, overflow:"auto"}}>
+          <div id="influencer-nav" style={{height: "550px", overflow:"auto"}}>
             <InfiniteScroll
               loadMore={() => {
                 setOffset(offset + 10);
-                console.log(offset);
                 const url = searchURLBuilder(tags, location, engagement, followerRange, emailBool, language, offset);
                 fetchUsers(url, users, setUsers, setLoading, classes);
-                setTimeout(10000);
               }}
-              loader={<LoadingCircle classes={classes} />}
+              loader={<LoadingCircle key={0} classes={classes} />}
               initialLoad={false}
               hasMore={true}
               useWindow={false}
@@ -99,7 +91,7 @@ export default function(){
             </InfiniteScroll>
           </div>
           <GridItem>
-            {loading ? <LoadingCircle classes={classes}/> : ""}
+            {loading ? <LoadingCircle key={0} classes={classes}/> : ""}
           </GridItem>
         </Card>
       </GridItem>
@@ -125,7 +117,7 @@ export default function(){
 
 function LoadingCircle(props){
   return (
-    <div className={props.classes.loading}>
+    <div className={props.classes.loading} >
       <CircularProgress color="secondary" />
     </div>
   );
@@ -147,15 +139,16 @@ function arrangeInfluencers(users, classes){
 }
 
 function arrangeInfluencer(user){
-  return <InfluencerCard key={user.userID} user={user} /*monaUserID=*//>;
+  return <InfluencerCard user={user} /*monaUserID=*//>;
 }
 
 async function fetchUsers(url, users, setUsers, setLoading, classes){
   fetch(url)
     .then(response => response.json())
     .then(data => {
-      setLoading(false);
       const receivedUsers = data;
+      console.log(users);
+      setLoading(false);
       setUsers([...users, ...arrangeInfluencers(receivedUsers, classes)]);
     })
     .catch(e => {
