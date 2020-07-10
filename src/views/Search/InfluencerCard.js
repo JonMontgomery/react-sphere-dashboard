@@ -18,6 +18,7 @@ import numberWithCommas from "../../helpers/numberWithCommas.js";
 
 import { makeStyles } from "@material-ui/core/styles";
 import styles from "assets/jss/material-dashboard-react/views/searchStyle.js";
+import App from "views/UserProfile/UserProfile.js"
 const useStyles = makeStyles(styles);
 
 export default function InfluencerCard(props){
@@ -34,6 +35,7 @@ export default function InfluencerCard(props){
               <img src={avatar} alt="..." />
             </a>
           </CardAvatar>
+          //<button onClick={() => App.getProfile(props.user)}View Profile/>
           <span 
             title={numberFormatter(props.user.engagementMetric.engagement) + " likes/comments avg"} 
             style={{marginRight:"-10px"}}
@@ -101,3 +103,4 @@ function HeartButton(props){
     //on pressed show  
   );
 }
+

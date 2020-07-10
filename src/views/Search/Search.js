@@ -60,7 +60,10 @@ export default function(){
   function HandleEmailClick(){
     setEmailBool(!emailBool);
   }
+
+
   return(
+
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
         <CardHeader color="primary">
@@ -88,6 +91,7 @@ export default function(){
               <div>
                 {users}
               </div>
+
             </InfiniteScroll>
           </div>
           <GridItem>
@@ -115,6 +119,8 @@ export default function(){
   );
 }
 
+
+
 function LoadingCircle(props){
   return (
     <div className={props.classes.loading} >
@@ -122,6 +128,9 @@ function LoadingCircle(props){
     </div>
   );
 }
+
+
+
 
 function arrangeInfluencers(users, classes){
   const formattedUsers = [];
@@ -141,6 +150,9 @@ function arrangeInfluencers(users, classes){
 function arrangeInfluencer(user){
   return <InfluencerCard user={user} /*monaUserID=*//>;
 }
+
+
+
 
 async function fetchUsers(url, users, setUsers, setLoading, classes){
   fetch(url)
